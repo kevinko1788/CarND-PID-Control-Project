@@ -34,7 +34,7 @@ int main() {
   uWS::Hub h;
 
   PID pid;
-
+  // used calculated value from PID excercise for test
   double Kp = 2.29353;
   double Ki = 9.04875;
   double Kd = 0.23322;

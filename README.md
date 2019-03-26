@@ -1,6 +1,17 @@
 # CarND-Controls-PID
 Self-Driving Car Engineer Nanodegree Program
 
+A video of my simulation on the track can be find [here](https://youtu.be/eKHiL13j0To).
+
+#### Components of PID
+Knowledge of the PID is critical to perform the vehicle well on the track. 
+* The "P" is for proportion, meaning the vehicle make its correction according to the cross-check-error (CTE). Given CTE, which means distance from the middle lane, vehicle will adjust its angle to correct the vehicle position to middle lane. But, if the value is set too high, vehicle often overshoots which will cause zig-zag behavior (oscillate). If the value is too low, the vehicle will correct itself very. slowly.
+* The "I" is for integral, it is the sum of previous CTEs. The vehicle may have biases. If it set too high, vehicle tend to move at very slow speed and ocillitate too much. If the coefficient is too low, vehicle tend to drive on one side of the lane.
+* The "D" is for derivate of the CTE where it increses if the vehicle is moving apart from the center line. And, the derivate will have negative value if the vehicle is moving towards to the center line. If the value is too high, the steering angle of the vehicle will constantly be changing in large degrees even though the vehicle is aligned with center line. 
+
+After hundreds of manual tuning, I found P=3.0, I=9.0, K=0.8 was the one of my best tuning value. I calculated average CTE between the tries (Sum_CTE / steps). The average CTE for the tuning value for 1 lab was around 0.6. Referring average CTE to get the optimized tuning is not the best way, but I found this is pretty useful to make the vehilce stay in the center. However, I could tune little bit more to optimize the oscillate. Currently, the vehicle has tendency to oscillate after sharp curves.
+
+*the description below is Udacity's original README for the project repo*
 ---
 
 ## Dependencies

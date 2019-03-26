@@ -29,21 +29,35 @@ string hasData(string s) {
   }
   return "";
 }
-
+int step = 0;
+double sum_cte=0.0;
+double avg_cte;
 int main() {
   uWS::Hub h;
 
   PID pid;
-  // used calculated value from PID excercise for test
-  double Kp = 2.29353;
-  double Ki = 9.04875;
-  double Kd = 0.23322;
+ 
+  // 0.13426 @ 0.6
+  double Kp = 3.0;
+  double Ki = 9.0;
+  double Kd = 0.8;
+
+  // // 0.898077 @ 1
+  // double Kp = 2.0;
+  // double Ki = 5.0;
+  // double Kd = 20.0;
+
+  // 0.832409 @ 1
+  // double Kp = 2.2;
+  // double Ki = 5.0;
+  // double Kd = 10.0;
+
+ 
 
   pid.Init(Kp, Ki, Kd);
   /**
    * TODO: Initialize the pid variable.
    */
-
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 
                      uWS::OpCode opCode) {
@@ -74,12 +88,16 @@ int main() {
           
           steer_value = pid.TotalError();
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value 
+          step+= 1;
+          sum_cte+= abs(cte);
+          avg_cte = sum_cte/step;
+          std::cout << "CTE: " << cte << " avg cte: " << avg_cte << " Steering Value: " << steer_value 
                     << std::endl;
+              
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;
-          msgJson["throttle"] = 3;
+          msgJson["throttle"] = 0.6;
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
